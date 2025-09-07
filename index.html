@@ -2,17 +2,37 @@
 <html lang="fi">
 <head>
   <meta charset="UTF-8">
-  <title>Tietovisa</title>
+  <link rel="stylesheet" href="style.css">
+  <title>Judovisa</title>
 </head>
 <body>
-  <h1>Judovisa</h1>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#osaekomi">Osaekomi</a></li>
+                <li><a href="#shimewaza">Shimewaza</a></li>
+                <li><a href="#kansetsuwaza">Kansetsuwaza</a></li>
+                <li><a href="#tewaza">Tewaza</a></li>
+                <li><a href="#koshiwaza">Koshiwaza</a></li>
+                <li><a href="#ashiwaza">Ashiwaza</a></li>
+                <li><a href="#Sutemiwaza">Sutemiwaza</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="osaekomi">
+            <h1>Judovisa</h1>
+            <div class="kysymys">
+                <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on neljä.</p>
+                <input type="text" id="vastausKesagatame" autocomplete="off">
+                <button onclick="tarkistaKesagatame()">Tarkista</button>
+                <ul id="palauteKesagatame"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
 
-  <div class="kysymys">
-    <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on neljä.</p>
-    <input type="text" id="vastausKesagatame" autocomplete="off">
-    <button onclick="tarkistaKesagatame()">Tarkista</button>
-    <ul id="palauteKesagatame"></ul>
-  </div>
+    </footer>
 
   <script src="script.js"></script>
 </body>
