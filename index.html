@@ -20,20 +20,37 @@
         </nav>
     </header>
     <main>
+        <h1>Judovisa</h1>
         <section id="osaekomi">
-            <h1>Judovisa</h1>
             <div class="kysymys">
                 <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on neljä.</p>
                 <input type="text" id="vastausKesagatame" autocomplete="off">
-                <button onclick="tarkistaKesagatame()">Tarkista</button>
+                <button id="nappiKesagatame">Tarkista</button>
                 <ul id="palauteKesagatame"></ul>
             </div>
         </section>
+
+        <section id="koshiwaza">
+            <div class="kysymys">
+                <p>Kerro kuusi koshiwaza luokan heittoa</p>
+                <input type="text" id="vastausKoshiwaza" autocomplete="off">
+                <button id="nappiKoshiwaza">Tarkista</button>
+                <ul id="palauteKoshiwaza"></ul>
+            </div>
+        </section>
+
+        <section>
+            <div class="loppupisteet">
+                <p id="yhteispisteet">Yhteispisteesi</p>
+            </div>
+        </section>
+        
     </main>
     <footer>
-
     </footer>
 
-  <script src="script.js"></script>
+    <!-- Scripti hoitaa nyt kaikki napit ja Enter-toiminnot -->
+    <script src="script.js"></script>
 </body>
 </html>
+
