@@ -9,7 +9,7 @@ function muotoileVertailuun(teksti) {
 // palauteId: palautelistan ID
 // oikeat: taulukko oikeista vastauksista
 // maxYritykset: sallittu määrä syöttökertoja
-function tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset = 4) {
+function tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset = 10) {
 
   // Luodaan kysymyskohtaiset Setit ja yrityslaskuri, jos niitä ei vielä ole
   if (!window[`${syotekenttaId}_loydetyt`]) window[`${syotekenttaId}_loydetyt`] = new Set();
@@ -138,13 +138,22 @@ function laskeYhteispisteet() {
 
 // Käyttöesimerkit kysymyksistä
 
-// Kesagatame: max 4 yritystä
+// Kesagatame: max 5 yritystä
 lisaaTapahtumat(
   "vastausKesagatame",
   "nappiKesagatame",
   "palauteKesagatame",
-  ["kesagatame", "kuzurekesagatame", "katagatame", "makurakesagatame"],
-  4
+  ["kesagatame", "kuzurekesagatame", "katagatame", "makurakesagatame", "ushirokesagatame"],
+  5
+);
+
+//Shihogatame: max 3 yritystä
+lisaaTapahtumat(
+  "vastausShihogatame",
+  "nappiShihogatame",
+  "palauteShihogatame",
+  ["tateshihogatame", "kamishihogatame", "yokoshihogatame"],
+  3
 );
 
 // Koshiwaza: max 6 yritystä
@@ -152,7 +161,7 @@ lisaaTapahtumat(
   "vastausKoshiwaza",
   "nappiKoshiwaza",
   "palauteKoshiwaza",
-  ["ogoshi", "koshiguruma", "ukigoski", "haraigoshi", "tsurigoshi", "tsurikomigoshi", "sodetsurikomigoshi", "hanegoshi", "utsurigoshi", "ushirogoshi"],
+  ["ogoshi", "koshiguruma", "ukigoshi", "haraigoshi", "tsurigoshi", "tsurikomigoshi", "sodetsurikomigoshi", "hanegoshi", "utsurigoshi", "ushirogoshi"],
   6
 );
 

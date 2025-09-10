@@ -21,36 +21,63 @@
         </nav>
     </header>
     <main>
-        <!--Pääotsikko-->
         <h1>Judovisa</h1>
+            <div class="content-wrapper">
+                <!-- Vasemman puolen sisältö -->
+                <div class="kysymykset">
+                    <!--Osaekomi section-->
+                    <section id="osaekomi">
+                        <h2>Osaekomiwaza</h2>
+                        <div class="kysymys">
+                            <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on viisi.</p>
+                            <input type="text" id="vastausKesagatame" autocomplete="off">
+                            <button id="nappiKesagatame">Tarkista</button>
+                            <ul id="palauteKesagatame"></ul>
+                        </div>
+                        <div class="kysymys">
+                            <p>Kerro shihogatame-luokan sidonnat. Vihje: niitä on kolme.</p>
+                            <input type="text" id="vastausShihogatame" autocomplete="off">
+                            <button id="nappiShihogatame">Tarkista</button>
+                            <ul id="palauteShihogatame"></ul>
+                        </div>
+                    </section>
 
-        <!--Osaekomi section alkaa-->
-        <section id="osaekomi">
-            <div class="kysymys">
-                <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on neljä.</p>
-                <input type="text" id="vastausKesagatame" autocomplete="off">
-                <button id="nappiKesagatame">Tarkista</button>
-                <ul id="palauteKesagatame"></ul>
+                    <!--Koshiwaza section-->
+                    <section id="koshiwaza">
+                        <h2>Koshiwaza</h2>
+                        <div class="kysymys">
+                            <p>Kerro kuusi koshiwaza luokan heittoa</p>
+                            <input type="text" id="vastausKoshiwaza" autocomplete="off">
+                            <button id="nappiKoshiwaza">Tarkista</button>
+                            <ul id="palauteKoshiwaza"></ul>
+                        </div>
+                    </section>
+
+                    <!--Lopulliset yhteispisteet-->
+                    <section>
+                        <div class="loppupisteet">
+                            <p id="yhteispisteet">Yhteispisteesi</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Oikea pistetaulukko -->
+                <div id="pistetaulukko">
+                    <h2>Top 10</h2>
+                    <ul id="pistelista">
+                        <li>1.</li>
+                        <li>2.</li>
+                        <li>3.</li>
+                        <li>4.</li>
+                        <li>5.</li>
+                        <li>6.</li>
+                        <li>7</li>
+                        <li>8.</li>
+                        <li>9.</li>
+                        <li>10.</li>
+                    </ul>
+                </div>
             </div>
-        </section>
-
-        <!--Koshiwaza sectioon alkaa-->
-        <section id="koshiwaza">
-            <div class="kysymys">
-                <p>Kerro kuusi koshiwaza luokan heittoa</p>
-                <input type="text" id="vastausKoshiwaza" autocomplete="off">
-                <button id="nappiKoshiwaza">Tarkista</button>
-                <ul id="palauteKoshiwaza"></ul>
-            </div>
-        </section>
-
-        <!--Lopulliset yhteispisteet alkaa-->
-        <section>
-            <div class="loppupisteet">
-                <p id="yhteispisteet">Yhteispisteesi</p>
-            </div>
-        </section>
-
     </main>
 
     <!--Footer-->

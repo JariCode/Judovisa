@@ -1,3 +1,4 @@
+/* Säilytetään alkuperäiset tyylit ennallaan */
 header {
   position: sticky;
   top: 0;
@@ -8,7 +9,7 @@ header {
 
 nav ul {
   display: flex;
-  list-style: none; /* Poistaa pallukat */
+  list-style: none;
   margin: 0;
   padding: 0;
   justify-content: center;
@@ -28,6 +29,17 @@ nav li a:hover {
   color: #0077cc;
 }
 
+section {
+  margin-left: 5rem;
+  margin-bottom: 4rem;
+}
+
+h1 {
+  margin: 2rem 5rem;
+  font-size: 4rem;
+  text-align: center;
+}
+
 footer {
   text-align: center;
 }
@@ -36,3 +48,56 @@ footer a {
   text-decoration: none;
   color: black;
 }
+
+/* Uudet tyylit: vasen sisältö + oikea pistetaulukko */
+.content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 0 5rem;
+}
+
+/* Vasemman puolen sisältö */
+.kysymykset {
+  flex: 1; /* vie jäljelle jäävän tilan */
+}
+
+/* Oikea pistetaulukko */
+#pistetaulukko {
+  position: sticky;
+  top: 100px; /* etäisyys headerista */
+  width: 220px;
+  margin-right: 5rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: left;
+  height: fit-content;
+  z-index: 100;
+}
+
+#pistetaulukko h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+#pistetaulukko ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#pistetaulukko li {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  padding-bottom: 0.25rem;       /* Tilaa viivalle */
+  border-bottom: 1px solid #ccc; /* Viiva alle */
+}
+
+#pistetaulukko li:last-child {
+  border-bottom: none;
+}
+
+
+
