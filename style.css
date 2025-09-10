@@ -1,4 +1,4 @@
-/* Säilytetään alkuperäiset tyylit ennallaan */
+/* Sticky header*/
 header {
   position: sticky;
   top: 0;
@@ -13,7 +13,7 @@ nav ul {
   margin: 0;
   padding: 0;
   justify-content: center;
-  gap: 1.5em;
+  gap: 1em;
 }
 
 nav li a {
@@ -21,6 +21,7 @@ nav li a {
   padding: 1em;
   text-decoration: none;
   color: #333;
+  font-size: 1.5rem;
   font-weight: bold;
   transition: color 0.3s ease;
 }
@@ -34,14 +35,32 @@ section {
   margin-bottom: 4rem;
 }
 
+/*Fonttikoot*/
 h1 {
   margin: 2rem 5rem;
   font-size: 4rem;
   text-align: center;
 }
 
+h2 {
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+input {
+  font-size: 1.4rem;
+}
+
+button {
+  font-size: 1.2rem;
+}
+
 footer {
   text-align: center;
+  font-size: 1.5rem;
 }
 
 footer a {
@@ -49,7 +68,17 @@ footer a {
   color: black;
 }
 
-/* Uudet tyylit: vasen sisältö + oikea pistetaulukko */
+footer a:hover {
+  color: #0077cc;
+}
+
+/* Kaikki palautelistojen tekstit ja yhteispisteet */
+.kysymys ul li,
+.loppupisteet p {
+  font-size: 1.5rem;
+}
+
+/* Wrapperi. Kysymykset vasemmalla ja pistetaulukko oikealla */
 .content-wrapper {
   display: flex;
   align-items: flex-start;
@@ -79,7 +108,7 @@ footer a {
 
 #pistetaulukko h2 {
   margin-top: 0;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   text-align: center;
 }
 
@@ -90,6 +119,7 @@ footer a {
 
 #pistetaulukko li {
   margin-bottom: 0.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
   padding-bottom: 0.25rem;       /* Tilaa viivalle */
   border-bottom: 1px solid #ccc; /* Viiva alle */
