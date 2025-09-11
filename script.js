@@ -1,93 +1,96 @@
-// Funktio muotoilee annetun tekstin vertailua varten
-// Poistaa ylimääräiset välilyönnit, yhdysmerkit ja muuttaa tekstin pieniksi kirjaimiksi
+// -------------------------
+// YLEISET APUFUNKTIOT
+// -------------------------
+
+/**
+ * Muotoilee annetun tekstin vertailua varten.
+ * - poistaa alusta ja lopusta välilyönnit
+ * - muuttaa kaikki kirjaimet pieniksi
+ * - poistaa yhdysmerkit
+ * - korvaa moninkertaiset välilyönnit yhdellä
+ * @param {string} teksti - käyttäjän syöte
+ * @returns {string} - muokattu vertailukelpoinen teksti
+ */
 function muotoileVertailuun(teksti) {
   return teksti.trim().replace(/-/g, '').replace(/\s+/g, ' ').toLowerCase();
 }
 
-// Yleinen tarkistusfunktio visalle
-// syotekenttaId: tekstikentän ID
-// palauteId: palautelistan ID
-// oikeat: taulukko oikeista vastauksista
-// maxYritykset: sallittu määrä syöttökertoja
-function tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset = 10) {
+// -------------------------
+// KYSYMYSTEN TALLENNUS
+// -------------------------
 
-  // Luodaan kysymyskohtaiset Setit ja yrityslaskuri, jos niitä ei vielä ole
-  if (!window[`${syotekenttaId}_loydetyt`]) window[`${syotekenttaId}_loydetyt`] = new Set();
-  if (!window[`${syotekenttaId}_vaarat`]) window[`${syotekenttaId}_vaarat`] = new Set();
-  if (!window[`${syotekenttaId}_yritykset`]) window[`${syotekenttaId}_yritykset`] = 0;
+/**
+ * Tallentaa kaikki kysymysten tiedot keskitetysti.
+ * Jokaiselle kysymykselle luodaan oma olio, joka sisältää:
+ * - oikeat vastaukset (taulukko)
+ * - maxYritykset (numero)
+ * - palautelistan id (string)
+ * - löydetyt vastaukset (Set)
+ * - väärät vastaukset (Set)
+ * - käytetyt yritykset (numero)
+ */
+const kysymysData = {};
 
-  const loydetyt = window[`${syotekenttaId}_loydetyt`]; // oikeat vastaukset
-  const vaarat = window[`${syotekenttaId}_vaarat`];     // väärät vastaukset
-  let yritykset = window[`${syotekenttaId}_yritykset`]; // käytetyt yritykset
+// -------------------------
+// PÄÄTOIMINNALLISUUS
+// -------------------------
 
-  // Haetaan DOM-elementit
+/**
+ * Tarkistaa käyttäjän vastauksen annetulle kysymykselle.
+ * @param {string} syotekenttaId - syötekentän ID (esim. "vastausKesagatame")
+ */
+function tarkistaVastaus(syotekenttaId) {
+  const data = kysymysData[syotekenttaId]; // haetaan kysymyksen asetukset
+  if (!data) return; // jos asetuksia ei löydy, poistutaan
+
+  const { oikeat, maxYritykset, loydetyt, vaarat } = data;
   const syoteKentta = document.getElementById(syotekenttaId);
-  const palauteLista = document.getElementById(palauteId);
+  const palauteLista = document.getElementById(data.palauteId);
+
+  if (!syoteKentta || !palauteLista) return; // jos DOM-elementtiä ei löydy, poistutaan
 
   // Haetaan käyttäjän syöte
   const syote = syoteKentta.value.trim();
-  if (!syote) return; // jos tyhjä, ei tehdä mitään
-
-  // Jos yritykset loppu
-  if (yritykset >= maxYritykset) {
-    const li = document.createElement("li");
-    li.textContent = `⚠️ Olet käyttänyt kaikki ${maxYritykset} yritystä.`;
-    li.style.color = "orange";
-    palauteLista.appendChild(li);
-    syoteKentta.disabled = true;
-    laskeYhteispisteet(); // päivitetään yhteispisteet myös tässä tilanteessa
-    return;
-  }
+  if (!syote) return; // jos kenttä tyhjä, ei tehdä mitään
 
   // Muotoillaan syöte vertailua varten
   const vertailtava = muotoileVertailuun(syote);
 
-  // Jos vastaus on jo annettu aiemmin
+  // Luodaan lista-elementti palautetta varten
+  const li = document.createElement("li");
+
+  // Tarkistetaan, onko vastaus jo annettu
   if (loydetyt.has(vertailtava) || vaarat.has(vertailtava)) {
-    const li = document.createElement("li");
     li.textContent = `⚠️ ${syote.toUpperCase()} on jo annettu aiemmin`;
     li.style.color = "orange";
-    palauteLista.appendChild(li);
-    syoteKentta.value = "";
-    return;
   }
-
-  // Tarkistetaan oikeellisuus
-  const li = document.createElement("li");
-  if (oikeat.includes(vertailtava)) {
+  // Oikea vastaus
+  else if (oikeat.includes(vertailtava)) {
     loydetyt.add(vertailtava);
     li.textContent = `✅ ${syote.toUpperCase()} on oikein`;
     li.style.color = "green";
-  } else {
+  }
+  // Väärä vastaus
+  else {
     vaarat.add(vertailtava);
     li.textContent = `❌ ${syote.toUpperCase()} ei ole oikein`;
     li.style.color = "red";
   }
+
+  // Lisätään palauterivi DOMiin
   palauteLista.appendChild(li);
 
-  // Poistetaan aiemmat puuttuvat-rivit
-  const vanhatInfo = palauteLista.querySelectorAll(".puuttuvat");
-  vanhatInfo.forEach(el => el.remove());
+  // Kasvatetaan käytettyjen yritysten määrää yhdellä
+  data.yritykset++;
 
-  // Näytetään puuttuvien oikeiden määrä (maxYritykset - oikeat vastaukset)
-  const puuttuvat = Math.max(0, maxYritykset - loydetyt.size);
-  if (puuttuvat > 0 && yritykset + 1 < maxYritykset) {
+  // Jos nyt on käytetty kaikki sallitut yritykset → näytetään viesti heti
+  if (data.yritykset >= maxYritykset) {
     const info = document.createElement("li");
-    info.textContent = `ℹ️ Puuttuvia oikeita vastauksia: ${puuttuvat}`;
-    info.style.color = "blue";
-    info.classList.add("puuttuvat");
+    info.textContent = `⚠️ Olet käyttänyt kaikki ${maxYritykset} yritystä.`;
+    info.style.color = "orange";
     palauteLista.appendChild(info);
-  }
 
-  // Lisätään yksi käytetty yritys
-  window[`${syotekenttaId}_yritykset`]++;
-
-  // Jos kaikki oikein tai yritykset loppu, näytetään yhteenveto
-  if (loydetyt.size === maxYritykset || window[`${syotekenttaId}_yritykset`] >= maxYritykset) {
-    const yhteenveto = document.createElement("li");
-    yhteenveto.textContent = `🔎 Yhteenveto: Oikeat ${loydetyt.size}, Väärät ${vaarat.size}`;
-    yhteenveto.style.color = "purple";
-    palauteLista.appendChild(yhteenveto);
+    // Lukitaan syötekenttä, ettei käyttäjä voi antaa enää vastauksia
     syoteKentta.disabled = true;
   }
 
@@ -98,45 +101,70 @@ function tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset = 10) {
   laskeYhteispisteet();
 }
 
-// Funktio nappien ja Enterin sitomiseen
-function lisaaTapahtumat(syotekenttaId, nappiId, palauteId, oikeat, maxYritykset = 4) {
+/**
+ * Lisää tapahtumakuuntelijat kysymykseen.
+ * Tallentaa myös kysymyksen asetukset kysymysData-objektiin.
+ * @param {string} syotekenttaId - tekstikentän ID
+ * @param {string} nappiId - napin ID
+ * @param {string} palauteId - palautelistan ID
+ * @param {string[]} oikeat - oikeiden vastausten lista
+ * @param {number} maxYritykset - maksimiyritysten määrä
+ */
+function lisaaTapahtumat(syotekenttaId, nappiId, palauteId, oikeat, maxYritykset) {
+  // Tallennetaan kysymyksen data keskitetysti
+  kysymysData[syotekenttaId] = {
+    oikeat,
+    maxYritykset,
+    palauteId,
+    loydetyt: new Set(),
+    vaarat: new Set(),
+    yritykset: 0
+  };
+
+  // Haetaan DOM-elementit
+  const syote = document.getElementById(syotekenttaId);
+  const nappi = document.getElementById(nappiId);
+
+  if (!syote || !nappi) return; // tarkistus, ettei DOM-virheitä
 
   // Enter-näppäin tarkistaa vastauksen
-  document.getElementById(syotekenttaId).addEventListener("keydown", function(e) {
+  syote.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       e.preventDefault();
-      tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset);
+      tarkistaVastaus(syotekenttaId);
     }
   });
 
   // Nappia painettaessa tarkistus
-  document.getElementById(nappiId).addEventListener("click", function() {
-    tarkistaVastaus(syotekenttaId, palauteId, oikeat, maxYritykset);
+  nappi.addEventListener("click", () => {
+    tarkistaVastaus(syotekenttaId);
   });
 }
 
-// Funktio laskee kaikkien kysymysten yhteispisteet
+/**
+ * Laskee kaikkien kysymysten yhteispisteet ja päivittää ne DOMiin.
+ */
 function laskeYhteispisteet() {
   const yhteispisteetEl = document.getElementById("yhteispisteet");
   if (!yhteispisteetEl) return;
 
-  // Lasketaan kaikkien kysymysten oikeat
-  const kaikkiLoydetyt = Object.keys(window)
-    .filter(k => k.endsWith("_loydetyt"))
-    .map(k => window[k])
-    .reduce((sum, setti) => sum + setti.size, 0);
+  let kaikkiLoydetyt = 0;
+  let kaikkiVaarat = 0;
 
-  // Lasketaan kaikkien kysymysten väärät
-  const kaikkiVaarat = Object.keys(window)
-    .filter(k => k.endsWith("_vaarat"))
-    .map(k => window[k])
-    .reduce((sum, setti) => sum + setti.size, 0);
+  // Käydään läpi kaikki tallennetut kysymykset
+  Object.values(kysymysData).forEach(data => {
+    kaikkiLoydetyt += data.loydetyt.size;
+    kaikkiVaarat += data.vaarat.size;
+  });
 
-  // Päivitetään HTML-elementti
-  yhteispisteetEl.textContent = `Yhteispisteesi: Oikeat vastauksesi ${kaikkiLoydetyt}, Väärät vastauksesi ${kaikkiVaarat}`;
+  // Päivitetään DOM
+  yhteispisteetEl.textContent =
+    `Yhteispisteesi: Oikeat vastauksesi ${kaikkiLoydetyt}, Väärät vastauksesi ${kaikkiVaarat}`;
 }
 
-// Käyttöesimerkit kysymyksistä
+// -------------------------
+// KYSYMYSTEN MÄÄRITTELYT
+// -------------------------
 
 // Kesagatame: max 5 yritystä
 lisaaTapahtumat(
@@ -147,7 +175,7 @@ lisaaTapahtumat(
   5
 );
 
-//Shihogatame: max 3 yritystä
+// Shihogatame: max 3 yritystä
 lisaaTapahtumat(
   "vastausShihogatame",
   "nappiShihogatame",
