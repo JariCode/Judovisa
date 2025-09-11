@@ -7,10 +7,10 @@
 </head>
 <body>
     <header>
-        <!--Navi alkaa-->
+        <!-- Navi alkaa -->
         <nav>
             <ul>
-                <li><a href="#osaekomi">Osaekomi</a></li>
+                <li><a href="#osaekomi">Osaekomiwaza</a></li>
                 <li><a href="#shimewaza">Shimewaza</a></li>
                 <li><a href="#kansetsuwaza">Kansetsuwaza</a></li>
                 <li><a href="#tewaza">Tewaza</a></li>
@@ -21,79 +21,93 @@
         </nav>
     </header>
     <main>
-        
         <h1>Judovisa</h1>
-            <!--Wrapperi sisällölle niin saadaan kysymykset pysymään vasemmalla ja pistetaulukko oikealla-->
-            <div class="content-wrapper">
 
-                <!-- Vasemman puolen sisältö alkaa-->
-                <div class="kysymykset">
-                    <!--Osaekomi section-->
-                    <section id="osaekomi">
+        <!-- Wrapperi sisällölle (kysymykset vasemmalla, pistetaulukko oikealla) -->
+        <div class="content-wrapper">
+
+            <!-- Vasemman puolen sisältö alkaa -->
+            <div class="kysymykset">
+
+                <!-- Osaekomi section -->
+                <section id="osaekomi">
+                    <div class="kysymys">
                         <h2>Osaekomiwaza</h2>
-                        <div class="kysymys">
-                            <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on viisi.</p>
-                            <input type="text" id="vastausKesagatame" autocomplete="off">
-                            <button id="nappiKesagatame">Tarkista</button>
-                            <ul id="palauteKesagatame"></ul>
-                        </div>
-                        <div class="kysymys">
-                            <p>Kerro shihogatame-luokan sidonnat. Vihje: niitä on kolme.</p>
-                            <input type="text" id="vastausShihogatame" autocomplete="off">
-                            <button id="nappiShihogatame">Tarkista</button>
-                            <ul id="palauteShihogatame"></ul>
-                        </div>
+                        <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on viisi.</p>
+                        <input type="text" id="vastausKesagatame" autocomplete="off">
+                        <button id="nappiKesagatame">Tarkista</button>
+                        <ul id="palauteKesagatame"></ul>
+                    </div>
+
+                    <div class="kysymys">
+                        <h2>Osaekomiwaza</h2>
+                        <p>Kerro shihogatame-luokan sidonnat. Vihje: niitä on kolme.</p>
+                        <input type="text" id="vastausShihogatame" autocomplete="off">
+                        <button id="nappiShihogatame">Tarkista</button>
+                        <ul id="palauteShihogatame"></ul>
+                    </div>
+                </section>
+
+                 <section id="tewaza">
+                    <div class="kysymys">
+                        <h2>Tewaza</h2>
+                        <p>Kerro kuusi Tewaza luokan heittoa</p>
+                        <input type="text" id="vastausTewaza" autocomplete="off">
+                        <button id="nappiTewaza">Tarkista</button>
+                        <ul id="palauteTewaza"></ul>
+                    </div>
                     </section>
 
-                    <!--Koshiwaza section-->
-                    <section id="koshiwaza">
+                <!-- Koshiwaza section -->
+                <section id="koshiwaza">
+                    <div class="kysymys">
                         <h2>Koshiwaza</h2>
-                        <div class="kysymys">
-                            <p>Kerro kuusi koshiwaza luokan heittoa</p>
-                            <input type="text" id="vastausKoshiwaza" autocomplete="off">
-                            <button id="nappiKoshiwaza">Tarkista</button>
-                            <ul id="palauteKoshiwaza"></ul>
-                        </div>
-                    </section>
+                        <p>Kerro kuusi koshiwaza luokan heittoa</p>
+                        <input type="text" id="vastausKoshiwaza" autocomplete="off">
+                        <button id="nappiKoshiwaza">Tarkista</button>
+                        <ul id="palauteKoshiwaza"></ul>
+                    </div>
+                </section>
 
-                    <!--Lopulliset yhteispisteet-->
-                    <section>
-                        <div class="loppupisteet">
-                            <p id="yhteispisteet">Yhteispisteesi</p>
-                        </div>
-                    </section>
-                </div>
-                <!--Vasemman puolen sisältö loppuu-->
-                
-                <!--Oikean puolen sisältö alkaa-->
-                <!-- Top10 pistetaulukko -->
-                <div id="pistetaulukko">
-                    <h2>Top 10</h2>
-                    <ul id="pistelista">
-                        <li>1.</li>
-                        <li>2.</li>
-                        <li>3.</li>
-                        <li>4.</li>
-                        <li>5.</li>
-                        <li>6.</li>
-                        <li>7</li>
-                        <li>8.</li>
-                        <li>9.</li>
-                        <li>10.</li>
-                    </ul>
-                </div>
-                <!--Oikean puolen sisältö loppuu-->
+                <!-- Lopulliset yhteispisteet -->
+                <section>
+                    <h2 id="loppu-otsikko">Judovisa on päättynyt! Onnittelut!!!</h2>
+                    <div class="loppupisteet">
+                        <p id="yhteispisteet">Yhteispisteesi</p>
+                        <button id="nappiAloitaAlusta">Yritä uudelleen</button>
+                    </div>
+                </section>
 
             </div>
-            <!--Wrapperi sisällölle loppuu-->
+            <!-- Vasemman puolen sisältö loppuu -->
+
+            <!-- Oikean puolen sisältö alkaa -->
+            <div id="pistetaulukko">
+                <h2>Top 10</h2>
+                <ul id="pistelista">
+                    <li>1.</li>
+                    <li>2.</li>
+                    <li>3.</li>
+                    <li>4.</li>
+                    <li>5.</li>
+                    <li>6.</li>
+                    <li>7.</li>
+                    <li>8.</li>
+                    <li>9.</li>
+                    <li>10.</li>
+                </ul>
+            </div>
+            <!-- Oikean puolen sisältö loppuu -->
+
+        </div>
+        <!-- Wrapperi loppuu -->
     </main>
 
-    <!--Footer-->
     <footer>
         &copy; <a href="https://jaricode.fi/">JariCode</a>
     </footer>
 
-    <!-- Script tiedosto-->
+    <!-- Script tiedosto -->
     <script src="script.js"></script>
 </body>
 </html>
