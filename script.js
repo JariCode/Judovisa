@@ -4,9 +4,10 @@
 
 /**
  * Muotoilee annetun tekstin vertailua varten.
- * Poistaa ylimääräiset välilyönnit, yhdysmerkit ja muuttaa tekstin pieniksi kirjaimiksi.
- * @param {string} teksti
- * @returns {string}
+ * - Poistaa ylimääräiset välilyönnit
+ * - Poistaa yhdysmerkit
+ * - Muuttaa kaiken pieniksi kirjaimiksi
+ * -> Tämä mahdollistaa joustavamman vertailun käyttäjän syötteiden ja oikeiden vastausten välillä.
  */
 function muotoileVertailuun(teksti) {
   return teksti.trim().replace(/-/g, '').replace(/\s+/g, ' ').toLowerCase();
@@ -15,6 +16,8 @@ function muotoileVertailuun(teksti) {
 // -------------------------
 // KYSYMYSTEN TALLENNUS
 // -------------------------
+
+// Tänne tallennetaan kaikki kysymyksiin liittyvä data (oikeat vastaukset, yritykset, löydetyt vastaukset jne.)
 const kysymysData = {};
 
 // -------------------------
@@ -22,13 +25,18 @@ const kysymysData = {};
 // -------------------------
 
 /**
- * Kysymysten järjestys muodostuu automaattisesti lisaaTapahtumat kutsuista.
+ * Kysymysten järjestys muodostuu automaattisesti aina kun kutsutaan lisaaTapahtumat().
+ * -> Näin uusia kysymyksiä voi lisätä helposti ilman manuaalista järjestyslistan ylläpitoa.
  */
 const kysymysJarjestys = [];
-let nykyinenIndex = 0;
+let nykyinenIndex = 0; // Pitää kirjaa mikä kysymys on menossa
 
 /**
- * Näyttää seuraavan kysymyksen, piilottaa muut kysymykset ja hallitsee loppu-otsikon sekä "Yritä uudelleen" napin näkyvyyden.
+ * Näyttää seuraavan kysymyksen ja piilottaa muut.
+ * - Piilottaa aina kaikki muut kysymykset
+ * - Näyttää vain nykyisen kysymyksen
+ * - Jos kysymykset loppuvat, näyttää loppu-otsikon ja "Yritä uudelleen" -napin
+ * - Vie aina kursorin näkyvän kysymyksen input-kenttään
  */
 function naytaSeuraavaKysymys() {
   // Piilotetaan kaikki kysymykset
@@ -41,33 +49,38 @@ function naytaSeuraavaKysymys() {
   const loppuOtsikko = document.getElementById("loppu-otsikko");
   const nappiAlusta = document.getElementById("nappiAloitaAlusta");
 
+  // Piilotetaan ne aluksi aina
   if (loppuOtsikko) loppuOtsikko.style.display = "none";
   if (nappiAlusta) nappiAlusta.style.display = "none";
 
+  // Jos kysymyksiä on jäljellä
   if (nykyinenIndex < kysymysJarjestys.length) {
     const nykyinenId = kysymysJarjestys[nykyinenIndex];
     const nykyinenElem = document.getElementById(nykyinenId).closest(".kysymys");
     if (nykyinenElem) {
       nykyinenElem.style.display = "block";
 
-      // 👇 Lisätään tämä, jotta kursori menee suoraan inputiin
+      // Kursori suoraan input-kenttään → helpottaa käyttöä
       const input = document.getElementById(nykyinenId);
       if (input) input.focus();
     }
   } else if (loppuOtsikko && nappiAlusta) {
+    // Jos kaikki kysymykset on käyty, näytetään loppuviesti ja alusta-nappi
     loppuOtsikko.style.display = "block";
     nappiAlusta.style.display = "inline-block";
   }
 }
-
 
 // -------------------------
 // PÄÄTOIMINNALLISUUS
 // -------------------------
 
 /**
- * Tarkistaa käyttäjän syötteen annetulle kysymykselle.
- * @param {string} syotekenttaId - syötekentän ID
+ * Tarkistaa käyttäjän syötteen tietylle kysymykselle.
+ * - Vertaa syötettä oikeisiin vastauksiin
+ * - Lisää palautteen listaan (oikein/väärin/jo annettu)
+ * - Päivittää yritysten määrän
+ * - Jos kysymys on valmis → siirrytään automaattisesti seuraavaan
  */
 function tarkistaVastaus(syotekenttaId) {
   const data = kysymysData[syotekenttaId];
@@ -84,14 +97,18 @@ function tarkistaVastaus(syotekenttaId) {
   const vertailtava = muotoileVertailuun(syote);
   const li = document.createElement("li");
 
+  // Tarkistuslogiikka
   if (loydetyt.has(vertailtava) || vaarat.has(vertailtava)) {
+    // Sama vastaus annettu jo
     li.textContent = `⚠️ ${syote.toUpperCase()} on jo annettu aiemmin`;
     li.style.color = "orange";
   } else if (oikeat.includes(vertailtava)) {
+    // Oikea vastaus
     loydetyt.add(vertailtava);
     li.textContent = `✅ ${syote.toUpperCase()} on oikein`;
     li.style.color = "green";
   } else {
+    // Väärä vastaus
     vaarat.add(vertailtava);
     li.textContent = `❌ ${syote.toUpperCase()} ei ole oikein`;
     li.style.color = "red";
@@ -101,7 +118,7 @@ function tarkistaVastaus(syotekenttaId) {
   data.yritykset++;
   syoteKentta.value = "";
 
-  // Jos kysymys valmis, siirrytään seuraavaan
+  // Jos kysymys valmis (yritykset loppu tai kaikki oikeat löytyneet)
   if (data.yritykset >= maxYritykset || loydetyt.size === oikeat.length) {
     if (data.yritykset >= maxYritykset) {
       const info = document.createElement("li");
@@ -110,19 +127,26 @@ function tarkistaVastaus(syotekenttaId) {
       palauteLista.appendChild(info);
     }
 
+    // Input pois käytöstä
     syoteKentta.disabled = true;
+
+    // Siirrytään seuraavaan kysymykseen
     nykyinenIndex++;
-    naytaSeuraavaKysymys(); // Seuraava kysymys tai loppu-otsikko näkyviin
+    naytaSeuraavaKysymys();
   }
 
-  laskeYhteispisteet(); // Päivitetään pisteet
+  // Päivitetään yhteispisteet joka syötteen jälkeen
+  laskeYhteispisteet();
 }
 
 /**
- * Lisää kysymykselle tapahtumat (Enter + nappi) ja tallentaa sen tiedot.
+ * Lisää uuden kysymyksen järjestelmään:
+ * - Tallentaa kysymystiedot
+ * - Lisää sen kysymysjärjestykseen
+ * - Liittää tapahtumat Enter-näppäimelle ja tarkistusnapille
  */
 function lisaaTapahtumat(syotekenttaId, nappiId, palauteId, oikeat, maxYritykset) {
-  // Tallennetaan kysymys dataan
+  // Tallennetaan kysymyksen data
   kysymysData[syotekenttaId] = {
     oikeat,
     maxYritykset,
@@ -132,14 +156,14 @@ function lisaaTapahtumat(syotekenttaId, nappiId, palauteId, oikeat, maxYritykset
     yritykset: 0
   };
 
-  // Lisätään automaattisesti kysymysjärjestykseen
+  // Lisätään kysymys järjestykseen (näytetään siinä järjestyksessä missä tämä funktio kutsutaan)
   kysymysJarjestys.push(syotekenttaId);
 
   const syote = document.getElementById(syotekenttaId);
   const nappi = document.getElementById(nappiId);
   if (!syote || !nappi) return;
 
-  // Enter-näppäin tarkistaa vastauksen
+  // Enter-näppäimellä vastaus tarkistetaan
   syote.addEventListener("keydown", e => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -147,14 +171,15 @@ function lisaaTapahtumat(syotekenttaId, nappiId, palauteId, oikeat, maxYritykset
     }
   });
 
-  // Nappia painettaessa tarkistus
+  // Tarkista-nappi tekee saman
   nappi.addEventListener("click", () => {
     tarkistaVastaus(syotekenttaId);
   });
 }
 
 /**
- * Laskee kaikkien kysymysten yhteispisteet ja päivittää DOMiin.
+ * Laskee kaikkien kysymysten yhteispisteet ja päivittää ne näkyviin.
+ * - Lasketaan löydetyt oikeat ja väärät yhteensä
  */
 function laskeYhteispisteet() {
   const yhteispisteetEl = document.getElementById("yhteispisteet");
@@ -176,10 +201,11 @@ function laskeYhteispisteet() {
 // ALUSTUS: "Yritä uudelleen" -nappi
 // -------------------------
 
+// Alusta-nappi palauttaa visan lähtötilanteeseen
 const nappiAlusta = document.getElementById("nappiAloitaAlusta");
 if (nappiAlusta) {
   nappiAlusta.addEventListener("click", () => {
-    // Nollataan kaikki kysymykset
+    // Nollataan kaikki kysymykset ja palautetaan kentät alkuun
     Object.entries(kysymysData).forEach(([key, data]) => {
       data.loydetyt.clear();
       data.vaarat.clear();
@@ -194,7 +220,7 @@ if (nappiAlusta) {
 
     // Aloitetaan alusta
     nykyinenIndex = 0;
-    naytaSeuraavaKysymys();
+    naytaSeuraavaKysymys(); // Näyttää ensimmäisen kysymyksen ja vie kursorin siihen
     laskeYhteispisteet();
   });
 }
@@ -202,6 +228,7 @@ if (nappiAlusta) {
 // -------------------------
 // KYSYMYSTEN MÄÄRITTELYT
 // -------------------------
+// Tänne lisätään kaikki kysymykset lisaaTapahtumat-funktiolla
 
 lisaaTapahtumat(
   "vastausKesagatame",
@@ -224,7 +251,7 @@ lisaaTapahtumat(
   "nappiTewaza",
   "palauteTewaza",
   ["seoinage", "kataguruma", "taiotoshi", "ipponseoinage", "seoiotoshi", "sukuinage", "obiotoshi", "ukiotoshi","sumiotoshi", "yamaarashi", "obitorigaeshi", 
-    "morotegari", "kuchikitaoshi", "kibisugaeshi", "uchimatasukashi", "kouchigaeshi"  ],
+    "morotegari", "kuchikitaoshi", "kibisugaeshi", "uchimatasukashi", "kouchigaeshi"],
   6
 );
 
@@ -236,8 +263,13 @@ lisaaTapahtumat(
   6
 );
 
-// Näytetään ensimmäinen kysymys sivun latautuessa
+// -------------------------
+// VISAN KÄYNNISTYS
+// -------------------------
+
+// Kun sivu latautuu, näytetään ensimmäinen kysymys automaattisesti
 naytaSeuraavaKysymys();
+
 
 
 
