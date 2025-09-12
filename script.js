@@ -41,20 +41,25 @@ function naytaSeuraavaKysymys() {
   const loppuOtsikko = document.getElementById("loppu-otsikko");
   const nappiAlusta = document.getElementById("nappiAloitaAlusta");
 
-  // Aluksi piilotetaan loppu-otsikko ja alusta-nappi
   if (loppuOtsikko) loppuOtsikko.style.display = "none";
   if (nappiAlusta) nappiAlusta.style.display = "none";
 
-  // Näytetään nykyinen kysymys, jos kysymyksiä on jäljellä
   if (nykyinenIndex < kysymysJarjestys.length) {
-    const nykyinenElem = document.getElementById(kysymysJarjestys[nykyinenIndex]).closest(".kysymys");
-    if (nykyinenElem) nykyinenElem.style.display = "block";
+    const nykyinenId = kysymysJarjestys[nykyinenIndex];
+    const nykyinenElem = document.getElementById(nykyinenId).closest(".kysymys");
+    if (nykyinenElem) {
+      nykyinenElem.style.display = "block";
+
+      // 👇 Lisätään tämä, jotta kursori menee suoraan inputiin
+      const input = document.getElementById(nykyinenId);
+      if (input) input.focus();
+    }
   } else if (loppuOtsikko && nappiAlusta) {
-    // Visa päättynyt -> näytetään loppu-otsikko ja alusta-nappi
     loppuOtsikko.style.display = "block";
     nappiAlusta.style.display = "inline-block";
   }
 }
+
 
 // -------------------------
 // PÄÄTOIMINNALLISUUS
