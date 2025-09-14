@@ -1,6 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 /* Header*/
@@ -45,14 +46,14 @@ nav li a:hover {
 /* Mobiilinappi */
 .menu-toggle {
   display: none;
-  position: absolute;
+  position: fixed;      /* Fixed pysyy näytön yläreunassa scrollatessa */
   top: 0.5rem;
-  right: 1rem;
+  right: 0.5rem;
   font-size: 2rem;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 1100;
+  z-index: 1500;        /* korkeampi kuin nav ul */
 }
 
 section {
@@ -193,30 +194,36 @@ footer a:hover {
 @media (max-width: 768px) {
 
   /* Mobiilinavigaatio */
- .menu-toggle {
+/* Mobiilinavigaation nappi */
+  .menu-toggle {
     display: block;
-    position: fixed;    /* Fixed pysyy näytön yläreunassa */
+    position: fixed;
     top: 0.5rem;
     right: 0.5rem;
     font-size: 2rem;
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 1100;      /* ylemmäs kuin nav ul */
+    z-index: 1100;
   }
 
+  /* Mobiilinavigaatio */
   nav ul {
     display: none;
     flex-direction: column;
-    position: fixed;    /* pysyy kiinni ruudun yläreunassa */
+    justify-content: center;       /* keskitetään linkit pystysuunnassa */
+    align-items: center;           /* keskitetään vaakasuunnassa */
+    position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
-    width: 200px;
-    background-color: rgba(255,255,255,0.95);
-    padding-top: 3rem; /* tilaa X napille ylhäällä */
-    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    left: 0;
+    width: 100vw;
+    height: 100vh;                 /* koko ruudun korkeus */
+    background-color: rgba(255,255,255,0.85); /* läpinäkyvä valkoinen */
+    padding-top: 0;                /* ei ylimääräistä tilaa */
+    margin: 0;
+    box-shadow: none;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     z-index: 1000;
   }
 
@@ -230,8 +237,9 @@ footer a:hover {
   }
 
   nav ul li a {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 700;
+    padding: 0.5rem 1rem;
   }
 
   /* Wrapperi ja sisältö */
