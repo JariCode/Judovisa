@@ -193,20 +193,28 @@ footer a:hover {
 @media (max-width: 768px) {
 
   /* Mobiilinavigaatio */
-  .menu-toggle {
+ .menu-toggle {
     display: block;
+    position: fixed;    /* Fixed pysyy näytön yläreunassa */
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;      /* ylemmäs kuin nav ul */
   }
 
   nav ul {
     display: none;
     flex-direction: column;
-    position: fixed;
+    position: fixed;    /* pysyy kiinni ruudun yläreunassa */
     top: 0;
     right: 0;
     bottom: 0;
     width: 200px;
     background-color: rgba(255,255,255,0.95);
-    padding-top: 3rem;
+    padding-top: 3rem; /* tilaa X napille ylhäällä */
     box-shadow: -2px 0 5px rgba(0,0,0,0.2);
     overflow-y: auto;
     z-index: 1000;
