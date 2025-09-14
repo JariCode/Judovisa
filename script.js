@@ -10,9 +10,8 @@
  * -> Tämä mahdollistaa joustavamman vertailun käyttäjän syötteiden ja oikeiden vastausten välillä.
  */
 function muotoileVertailuun(teksti) {
-  return teksti.trim().replace(/-/g, '').replace(/\s+/g, ' ').toLowerCase();
+  return teksti.trim().replace(/[-\s]/g, '').toLowerCase();
 }
-
 // -------------------------
 // KYSYMYSTEN TALLENNUS
 // -------------------------
