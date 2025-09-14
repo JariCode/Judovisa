@@ -2,21 +2,25 @@
 <html lang="fi">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <title>Judovisa</title>
 </head>
 <body>
     <header>
         <!-- Navi alkaa -->
-        <nav>
-            <ul>
-                <li><a href="#osaekomi">Osaekomiwaza</a></li>
-                <li><a href="#shimewaza">Shimewaza</a></li>
-                <li><a href="#kansetsuwaza">Kansetsuwaza</a></li>
-                <li><a href="#tewaza">Tewaza</a></li>
-                <li><a href="#koshiwaza">Koshiwaza</a></li>
-                <li><a href="#ashiwaza">Ashiwaza</a></li>
-                <li><a href="#Sutemiwaza">Sutemiwaza</a></li>
+                <!-- Mobiili menu -->
+        <button class="menu-toggle" aria-label="Avaa valikko">☰</button>
+
+        <nav class="navbar">
+            <ul class="nav-links">
+            <li><a href="#osaekomi">Osaekomiwaza</a></li>
+            <li><a href="#shimewaza">Shimewaza</a></li>
+            <li><a href="#kansetsuwaza">Kansetsuwaza</a></li>
+            <li><a href="#tewaza">Tewaza</a></li>
+            <li><a href="#koshiwaza">Koshiwaza</a></li>
+            <li><a href="#ashiwaza">Ashiwaza</a></li>
+            <li><a href="#Sutemiwaza">Sutemiwaza</a></li>
             </ul>
         </nav>
     </header>
@@ -73,7 +77,7 @@
                 <section>
                     <h2 id="loppu-otsikko">Judovisa on päättynyt! Onnittelut!!!</h2>
                     <div class="loppupisteet">
-                        <p id="yhteispisteet">Yhteispisteesi</p>
+                        <p id="yhteispisteet"></p>
                         <button id="nappiAloitaAlusta">Yritä uudelleen</button>
                     </div>
                 </section>
