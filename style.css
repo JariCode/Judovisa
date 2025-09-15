@@ -4,6 +4,8 @@ html, body {
   height: 100%;
 }
 
+
+
 /* Header*/
 header {
   background-color: #fff;
@@ -11,6 +13,22 @@ header {
   width: 100%;
   margin: 0;
   padding: 0; /* ei ylimääräistä */
+}
+
+.logo {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1rem; /* tilaa logon ja navin väliin */
+  box-sizing: border-box;
+  height: 100px;      /* headerin korkeus */
+  line-height: 100px; /* keskitys pystysuunnassa */
+  float: left;        /* logo vasemmalle */
+}
+
+.logo img {
+  height: 80px;
+  margin-left: 1rem;
+  float: left; /* logo vasemmalle */
 }
 
 nav {
@@ -160,6 +178,11 @@ footer a:hover {
 
 /* Mobiilissa sisältö allekkain ja keskelle */
 @media (max-width: 1200px) {
+.logo img {
+  height: 50px;
+  margin-left: 1rem;
+  float: left; /* logo vasemmalle */
+}
 
   nav ul {
     gap: 0.6em;      /* pienempi väli linkkien välillä */
@@ -192,6 +215,11 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
+  .logo img {
+  height: 60px;
+  margin-left: 1rem;
+  float: left; /* logo vasemmalle */
+}
 
   /* Mobiilinavigaatio */
 /* Mobiilinavigaation nappi */
