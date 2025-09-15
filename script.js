@@ -12,6 +12,7 @@
 function muotoileVertailuun(teksti) {
   return teksti.trim().replace(/[-\s]/g, '').toLowerCase();
 }
+
 // -------------------------
 // KYSYMYSTEN TALLENNUS
 // -------------------------
@@ -24,8 +25,8 @@ const kysymysData = {};
 // -------------------------
 
 /**
- * Kysymysten järjestys muodostuu automaattisesti aina kun kutsutaan lisaaTapahtumat().
- * -> Näin uusia kysymyksiä voi lisätä helposti ilman manuaalista järjestyslistan ylläpitoa.
+ * Tänne kerätään kaikki kysymysten id:t siinä järjestyksessä,
+ * missä ne lisätään lisaaTapahtumat()-funktiolla.
  */
 const kysymysJarjestys = [];
 let nykyinenIndex = 0; // Pitää kirjaa mikä kysymys on menossa
@@ -79,7 +80,7 @@ function naytaSeuraavaKysymys() {
  * - Vertaa syötettä oikeisiin vastauksiin
  * - Lisää palautteen listaan (oikein/väärin/jo annettu)
  * - Päivittää yritysten määrän
- * - Jos kysymys on valmis → siirrytään automaattisesti seuraavaan
+ * - Jos kysymys on valmis → siirrytään automaattisesti seuraavaan pienen viiveen jälkeen
  */
 function tarkistaVastaus(syotekenttaId) {
   const data = kysymysData[syotekenttaId];
@@ -96,7 +97,9 @@ function tarkistaVastaus(syotekenttaId) {
   const vertailtava = muotoileVertailuun(syote);
   const li = document.createElement("li");
 
-  // Tarkistuslogiikka
+  // -------------------------
+  // 1) Tarkistetaan vastaus
+  // -------------------------
   if (loydetyt.has(vertailtava) || vaarat.has(vertailtava)) {
     // Sama vastaus annettu jo
     li.textContent = `⚠️ ${syote.toUpperCase()} on jo annettu aiemmin`;
@@ -113,28 +116,38 @@ function tarkistaVastaus(syotekenttaId) {
     li.style.color = "red";
   }
 
+  // Näytetään palaute käyttäjälle
   palauteLista.appendChild(li);
+
+  // Nollataan syötekenttä
   data.yritykset++;
   syoteKentta.value = "";
 
-  // Jos kysymys valmis (yritykset loppu tai kaikki oikeat löytyneet)
+  // -------------------------
+  // 2) Tarkistetaan onko kysymys päättynyt
+  // -------------------------
   if (data.yritykset >= maxYritykset || loydetyt.size === oikeat.length) {
-    if (data.yritykset >= maxYritykset) {
+    // Jos yritykset loppu ennen kuin kaikki löytyi
+    if (data.yritykset >= maxYritykset && loydetyt.size < oikeat.length) {
       const info = document.createElement("li");
       info.textContent = `⚠️ Olet käyttänyt kaikki ${maxYritykset} yritystä.`;
       info.style.color = "orange";
       palauteLista.appendChild(info);
     }
 
-    // Input pois käytöstä
+    // Estetään lisäämistä → kenttä pois käytöstä
     syoteKentta.disabled = true;
 
-    // Siirrytään seuraavaan kysymykseen
+    // Siirrytään seuraavaan kysymykseen vasta pienen viiveen jälkeen
     nykyinenIndex++;
-    naytaSeuraavaKysymys();
+    setTimeout(() => {
+      naytaSeuraavaKysymys();
+    }, 2000); // 1,5 sekunnin viive
   }
 
-  // Päivitetään yhteispisteet joka syötteen jälkeen
+  // -------------------------
+  // 3) Päivitetään yhteispisteet
+  // -------------------------
   laskeYhteispisteet();
 }
 
@@ -193,7 +206,7 @@ function laskeYhteispisteet() {
   });
 
   yhteispisteetEl.textContent =
-    `Yhteispisteesi: Oikeat vastauksesi ${kaikkiLoydetyt}, Väärät vastauksesi ${kaikkiVaarat}`;
+    `Yhteispisteesi: Oikeat vastaukset ${kaikkiLoydetyt}, Väärät vastaukset ${kaikkiVaarat}`;
 }
 
 // -------------------------
@@ -211,7 +224,10 @@ if (nappiAlusta) {
       data.yritykset = 0;
 
       const syoteKentta = document.getElementById(key);
-      if (syoteKentta) syoteKentta.disabled = false;
+      if (syoteKentta) {
+        syoteKentta.disabled = false;
+        syoteKentta.value = "";
+      }
 
       const palauteLista = document.getElementById(data.palauteId);
       if (palauteLista) palauteLista.innerHTML = "";
@@ -269,7 +285,10 @@ lisaaTapahtumat(
 // Kun sivu latautuu, näytetään ensimmäinen kysymys automaattisesti
 naytaSeuraavaKysymys();
 
-//Mobiili navi
+// -------------------------
+// MOBIILI NAVI
+// -------------------------
+
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
