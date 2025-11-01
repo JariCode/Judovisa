@@ -1,0 +1,424 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+    /* Linear gradient koko sivulle */
+  background: linear-gradient(to bottom, #ffe3b8, #ffffff);
+  /* ylhäällä lämmin sävy, alhaalla vaalea neutraali sävy */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* tausta pysyy paikoillaan scrollatessa */
+  color: #1a1a1a;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center; /* keskittää logon pystysuunnassa */
+  padding: 0 20px; /* pieni marginaali reunoille */
+  background: transparent; /* video näkyy taustalla */
+}
+
+/* Taustavideo */
+.header-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* Logo */
+.logo {
+  position: relative; /* sisällön päälle video */
+  z-index: 2;
+}
+
+.logo img {
+  height: 120px; /* sovita korkeus headeriin */
+  width: auto;
+}
+
+section {
+  margin-left: 5rem;
+}
+
+.kysymykset {
+  margin: 1rem;
+}
+
+/*Fonttikoot*/
+h1 {
+  font-size: 4rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+ input {
+  font-size: 1.4rem;
+  background-color: #b0c4de;
+  color: #1a1a1a;
+  border: 2px solid #1a1a1a;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 300px;
+}
+
+input::placeholder {
+  color: #555555;  /* tumma harmaa, kontrastiksi vaalealle taustalle */
+  opacity: 1;      /* Safari oletusarvoisesti tekee placeholderin haaleaksi */
+}
+
+button {
+  font-size: 1.2rem;
+  background-color: #b0c4de; /* light steel blue */
+  color: #1a1a1a;
+  font-weight: 700;
+  border: 2px solid #1a1a1a;
+  border-radius: 5px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+
+}
+
+main {
+  flex: 1 0 auto;         /* vie kaiken jäljelle jäävän tilan */
+  padding-top: 12rem;      /* tilaa headerille, sama kuin headerin korkeus */
+}
+
+footer {
+  flex: 0 0 auto;         /* footer ei veny, pysyy alareunassa */
+  margin-top: 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+footer a {
+  text-decoration: none;
+  color: black;
+}
+
+footer a:hover {
+  color: #0077cc;
+}
+
+/* Kaikki palautelistojen tekstit ja yhteispisteet */
+.kysymys ul li,
+.loppupisteet p {
+  font-size: 1.5rem;
+  color: #222222; /* tumma teksti kontrastiksi */
+}
+
+/* Wrapperi. Kysymykset vasemmalla ja pistetaulukko oikealla */
+.content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 0 5rem;
+}
+
+/* Vasemman puolen sisältö */
+.kysymykset {
+  flex: 1; /* vie jäljelle jäävän tilan */
+}
+
+/* Oikea pistetaulukko */
+#pistetaulukko {
+  top: 100px; /* etäisyys headerista */
+  width: 220px;
+  margin-right: 5rem;
+  padding: 1rem;
+  background-color: #b0c4de; /* light steel blue */
+  color: #1a1a1a;
+  font-weight: 700;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  text-align: left;
+  height: fit-content;
+}
+
+#pistetaulukko h2 {
+  margin-top: 0;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+#pistetaulukko ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#pistetaulukko li {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-bottom: 0.25rem;       /* Tilaa viivalle */
+  border-bottom: 1px solid #1a1a1a; /* Viiva alle */
+}
+
+#pistetaulukko li:last-child {
+  border-bottom: none;
+}
+
+/*Piilota visa ennen kirjautumista*/
+/* Piilota visa ennen kirjautumista */
+.content-wrapper {
+  display: none;
+}
+
+#loppu-otsikko,
+#nappiAloitaAlusta {
+  display: none;
+}
+
+/* Keskittää kirjautumislomakkeen H1:n alle */
+#kirjautuminen {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* Inputit allekkain ja keskitettynä */
+#kirjautuminen input {
+  display: block;
+  margin: 0.5rem auto; /* keskitetään vaakasuunnassa */
+  padding: 0.5rem;
+  width: 200px;
+  font-size: 1.2rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 5px;
+  background-color: #b0c4de;
+  color: #1a1a1a;
+}
+
+/* Kirjaudu-nappi keskitettynä */
+#kirjautuminen button {
+  display: block;
+  margin: 0.8rem auto;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: 2px solid #1a1a1a;
+  border-radius: 5px;
+  background-color: #b0c4de;
+  color: #1a1a1a;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+#kirjautuminen button:hover {
+  background-color: #99b4d1;
+}
+
+/* Palaute-teksti */
+#loginFeedback {
+  display: block;
+  color: red;
+  margin-top: 0.5rem;
+}
+
+
+#rekisterointi {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#rekisterointi p {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+#rekisterointiLomake input,
+#rekisterointiLomake button {
+  display: block;
+  margin: 0.5rem auto;
+  width: 250px;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+/*Kirjautuminen ulos*/
+#ylapainikkeet {
+  position: absolute;
+  top: 220px;
+  left: 20px;
+  z-index: 5;
+}
+
+#ylapainikkeet button {
+  margin-right: 1rem;
+}
+
+/*Evästebanneri*/
+#cookie-banner {
+  position: fixed;       /* banneri kiinnitetään ikkunaan */
+  bottom: 0;             /* näkyy ikkunan alareunassa */
+  left: 0;
+  width: 100%;           /* koko sivun leveys */
+  background: #eee;
+  border-top: 2px solid #ccc;
+  padding: 1rem;
+  text-align: left;
+  z-index: 9999;         /* korkea z-index, päälle kaikesta muusta */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2); /* halutessa pieni varjo */
+}
+
+#cookie-banner button {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+#loginFeedback {
+  display: block;
+  color: red;
+  margin-top: 0.5rem;
+}
+
+/*Linkkien tyyli*/
+a {
+  color: blue;
+}
+
+
+/* Mobiilissa sisältö allekkain ja keskelle */
+@media (max-width: 1200px) {
+
+  .content-wrapper {
+    flex-direction: column;   /* lapset allekkain */
+    align-items: center;      /* keskitetään lapset vaakasuunnassa */
+    gap: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;       /* keskitetään wrapper vaakasuunnassa */
+  }
+
+  .kysymykset,
+  #pistetaulukko {
+    width: 80%;               /* venytetään melkein koko leveydelle */
+    max-width: 600px;         /* ei liian leveäksi */
+    margin: 0;                /* ei ylimääräisiä sivumarginaaleja */
+  }
+
+  #pistetaulukko {
+    margin-top: 1rem;         /* vähän tilaa kysymysten alapuolelle */
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: 100px;        /* headerin korkeus automaattinen */
+    padding-bottom: 0rem; /* vähän tilaa alle */
+  }
+  
+  .logo img {
+    height: 50px;
+    margin-left: 0;
+  }
+
+  main {
+    padding-top: 6rem;      /* tilaa headerille, sama kuin headerin korkeus */
+  }
+
+  /* Wrapperi ja sisältö */
+  .content-wrapper {
+    flex-direction: column;        /* lapset allekkain */
+    align-items: center;           /* keskitetään vaakasuunnassa */
+    gap: 1.5rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* Poistetaan vasemman marginaalin sectionilta */
+  section {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Kysymykset keskitettynä */
+  .kysymykset {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Pistetaulukko keskitettynä */
+  #pistetaulukko {
+    width: 90%;
+    max-width: 400px;
+    margin: 1rem auto 0 auto;
+    padding: 1rem;
+  }
+
+  /* Input ja button keskitettynä */
+  .kysymys input,
+  .kysymys button {
+    display: block;
+    width: 90%;               /* tilaa reunojen väliin */
+    max-width: 400px;
+    margin: 0.5rem auto;      /* keskitetään vaakasuunnassa */
+    box-sizing: border-box;
+    font-size: 1.2rem;
+  }
+
+  /* Fonttikoot mobiilissa */
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .kysymys ul li,
+  .loppupisteet p {
+    font-size: 1.2rem;
+  }
+
+  #pistetaulukko h2 {
+    font-size: 1.5rem;
+  }
+
+  #pistetaulukko li {
+    font-size: 1.2rem;
+  }
+
+  /* Marginaalit kysymyksille */
+  .kysymys {
+    margin: 1rem 0;
+  }
+}
+
+
+
+

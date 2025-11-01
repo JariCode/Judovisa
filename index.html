@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Judovisa</title>
+</head>
+<body>
+     <header>
+        <!-- Taustavideo header-osiossa pyörii automaattisesti ja luuppaa -->
+        <video autoplay muted loop class="header-video">
+            <source src="video/Header.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Logo vasemmassa reunassa -->
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo">
+        </div>
+    </header>
+
+    <main>
+        <h1>Judovisa</h1>
+
+        <!-- Painikkeet näkyvät vain kirjautumisen jälkeen -->
+        <div id="ylapainikkeet" style="display: none; margin-left: 2rem;">
+        <button id="logoutButton">Kirjaudu ulos</button>
+        <button id="editUserButton">Muokkaa tietoja</button>
+        </div>
+
+        <!-- Kirjautumislomake -->
+        <div id="kirjautuminen">
+            <h2>Kirjaudu sisään</h2>
+
+            <input type="text" id="username" placeholder="Käyttäjätunnus" autocomplete="off" required>
+            <input type="password" id="password" placeholder="Salasana" autocomplete="off" required>
+
+            <button id="loginButton">Kirjaudu</button>
+
+            <p id="loginFeedback"></p> <!-- Kirjautumisen palaute -->
+        </div>
+
+        <!-- Rekisteröitymislinkki ja nappi -->
+        <div id="rekisterointi">
+        <p>Uusi käyttäjä? Rekisteröidy tästä:</p>
+        <button id="registerButton">Rekisteröidy</button>
+        </div>
+
+        <!-- Rekisteröitymislomake (piilotettuna aluksi) -->
+        <div id="rekisterointiLomake" style="display: none; text-align: center; margin-top: 2rem;">
+        <h2>Rekisteröidy</h2>
+
+        <input type="text" id="newUsername" placeholder="Käyttäjätunnus" autocomplete="off" required>
+        <input type="text" id="firstName" placeholder="Etunimi" autocomplete="off" required>
+        <input type="text" id="lastName" placeholder="Sukunimi" autocomplete="off" required>
+        <input type="email" id="email" placeholder="Sähköpostiosoite" autocomplete="off" required>
+        <input type="password" id="newPassword" placeholder="Salasana" autocomplete="off" required>
+
+        <button id="submitRegister">Luo käyttäjä</button>
+        <p style="margin-top: 1rem; font-size: 1.4em;">
+        Rekisteröitymällä hyväksyt <br>
+        <a href="tietosuojaseloste.html" target="_blank">Judovisan tietosuojaselosteen</a>.
+        </p>
+
+        <p id="registerFeedback"></p> <!-- Rekisteröinnin palaute -->
+        </div>
+
+        <!-- Pääsisällön wrapperi (vasen: kysymykset, oikea: pistetaulukko) -->
+        <div class="content-wrapper">
+
+            <!-- Vasemman puolen sisältö alkaa -->
+            <div class="kysymykset">
+
+                <!-- Osaekomiwaza-osio -->
+                <section id="osaekomi">
+                    <div class="kysymys">
+                        <h2>Osaekomiwaza</h2>
+                        <p>Kerro kesagatame-luokan sidonnat. Vihje: niitä on viisi.</p>
+                        <input type="text" id="vastausKesagatame" autocomplete="off">
+                        <button id="nappiKesagatame">Tarkista</button>
+                        <ul id="palauteKesagatame"></ul>
+                    </div>
+
+                    <div class="kysymys">
+                        <h2>Osaekomiwaza</h2>
+                        <p>Kerro shihogatame-luokan sidonnat. Vihje: niitä on kolme.</p>
+                        <input type="text" id="vastausShihogatame" autocomplete="off">
+                        <button id="nappiShihogatame">Tarkista</button>
+                        <ul id="palauteShihogatame"></ul>
+                    </div>
+                </section>
+
+                 <!-- Tewaza-osio -->
+                 <section id="tewaza">
+                    <div class="kysymys">
+                        <h2>Tewaza</h2>
+                        <p>Kerro kuusi Tewaza luokan heittoa</p>
+                        <input type="text" id="vastausTewaza" autocomplete="off">
+                        <button id="nappiTewaza">Tarkista</button>
+                        <ul id="palauteTewaza"></ul>
+                    </div>
+                    </section>
+
+                <!-- Koshiwaza-osio -->
+                <section id="koshiwaza">
+                    <div class="kysymys">
+                        <h2>Koshiwaza</h2>
+                        <p>Kerro kuusi koshiwaza luokan heittoa</p>
+                        <input type="text" id="vastausKoshiwaza" autocomplete="off">
+                        <button id="nappiKoshiwaza">Tarkista</button>
+                        <ul id="palauteKoshiwaza"></ul>
+                    </div>
+                </section>
+
+                <!-- Loppusektio, kun peli päättyy -->
+                <section>
+                    <h2 id="loppu-otsikko">Judovisa on päättynyt! Onnittelut!!!</h2>
+                    <div class="loppupisteet">
+                        <p id="yhteispisteet"></p>
+                        <button id="nappiAloitaAlusta">Yritä uudelleen</button>
+                    </div>
+                </section>
+
+            </div>
+            <!-- Vasemman puolen sisältö loppuu -->
+
+            <!-- Oikean puolen pistetaulukko -->
+            <div id="pistetaulukko">
+                <h2>Top 10</h2>
+                <ul id="pistelista">
+                    <!-- Täytetään dynaamisesti pelin aikana -->
+                    <li>1.</li>
+                    <li>2.</li>
+                    <li>3.</li>
+                    <li>4.</li>
+                    <li>5.</li>
+                    <li>6.</li>
+                    <li>7.</li>
+                    <li>8.</li>
+                    <li>9.</li>
+                    <li>10.</li>
+                </ul>
+            </div>
+            <!-- Oikean puolen sisältö loppuu -->
+
+        </div>
+        <!-- Wrapperi loppuu -->
+    </main>
+
+    <!-- Sivun footer -->
+    <footer>
+        &copy; <a href="https://jaricode.fi/">JariCode</a>
+    </footer>
+
+    <!-- Evästebanneri (näkyy ennen hyväksyntää) -->
+    <div id="cookie-banner" style="background:#eee; padding:0.5em 1em 1em; border:1px solid #ccc; text-align: left;">
+        <p>Käytämme välttämättömiä evästeitä, jotta Judovisa-palvelu toimii oikein, esimerkiksi sisäänkirjautumisen ja palvelun turvallisen käytön mahdollistamiseksi. 
+        <br>Nämä evästeet ovat tarpeellisia palvelun käyttämiseksi, eikä niitä voi poistaa käytöstä.</p>
+        <button id="acceptCookiesButton">Hyväksy evästeet</button>
+        <button id="declineCookiesButton" style="margin-left: 1rem;">Älä hyväksy</button>
+        <p id="cookieFeedback" style="color: red; margin-top: 0.5rem;"></p>
+    </div>
+
+    <!-- JavaScript-osuus evästeiden ja kirjautumisen hallintaan -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    // Haetaan tarvittavat elementit
+    const DECLINECOOKIESBTN = document.getElementById("declineCookiesButton");
+    const COOKIEFEEDBACK = document.getElementById("cookieFeedback");
+
+    // Jos käyttäjä kieltää evästeet, näytetään virheilmoitus
+    DECLINECOOKIESBTN.addEventListener("click", () => {
+    COOKIEFEEDBACK.textContent = "Et hyväksynyt välttämättömiä evästeitä. Judovisa vaatii evästeitä toimiakseen, joten et voi jatkaa palvelun käyttöön.";
+    });
+
+    // Kirjautumisen estäminen ennen evästeiden hyväksymistä
+        const LOGINBUTTON = document.getElementById("loginButton");
+        const LOGINFEEDBACK = document.getElementById("loginFeedback");
+
+        LOGINBUTTON.addEventListener("click", (e) => {
+    if (!COOKIESACCEPTED) {
+        e.preventDefault(); // Estetään painikkeen normaali toiminta
+        LOGINFEEDBACK.textContent = "Hyväksy evästeet ennen kirjautumista!";
+        LOGINFEEDBACK.style.color = "red";
+        return false;
+    }
+    // Jos evästeet hyväksytty → login.js hoitaa loput
+});
+
+        // Haetaan evästeiden hyväksyntään liittyvät elementit
+        const COOKIEBANNER = document.getElementById("cookie-banner");
+        const ACCEPTCOOKIESBTN = document.getElementById("acceptCookiesButton");
+
+        // Haetaan kirjautumis- ja rekisteröintikentät
+        const LOGININPUTS = [
+            document.getElementById("username"),
+            document.getElementById("password")
+        ];
+
+        const REGISTERINPUTS = [
+            document.getElementById("newUsername"),
+            document.getElementById("firstName"),
+            document.getElementById("lastName"),
+            document.getElementById("email"),
+            document.getElementById("newPassword")
+        ];
+
+        const SUBMITREGISTER = document.getElementById("submitRegister");
+        const REGISTERFEEDBACK = document.getElementById("registerFeedback");
+
+        // Muuttuja, joka kertoo onko evästeet hyväksytty
+        let COOKIESACCEPTED = false;
+
+        // Funktio, joka estää kirjautumisen ja rekisteröitymisen
+        function DISABLEAUTH() {
+            LOGININPUTS.forEach(input => input.disabled = true);
+            // Tämä rivi jätetään pois käytöstä: loginButton.disabled = true;
+            REGISTERINPUTS.forEach(input => input.disabled = true);
+            SUBMITREGISTER.disabled = true;
+        }
+
+        // Funktio, joka sallii lomakkeiden käytön evästeiden hyväksynnän jälkeen
+        function ENABLEAUTH() {
+            LOGININPUTS.forEach(input => input.disabled = false);
+            LOGINBUTTON.disabled = false;
+            REGISTERINPUTS.forEach(input => input.disabled = false);
+            SUBMITREGISTER.disabled = false;
+            COOKIESACCEPTED = true;
+
+            // Tyhjennetään mahdolliset virheilmoitukset
+            LOGINFEEDBACK.textContent = "";
+            REGISTERFEEDBACK.textContent = "";
+        }
+
+        // Alussa evästeitä ei hyväksytty → estetään lomakkeet
+        if (COOKIEBANNER.style.display !== "none") {
+            DISABLEAUTH();
+        }
+
+        // Kun käyttäjä hyväksyy evästeet → piilotetaan banneri ja sallitaan lomakkeet
+        ACCEPTCOOKIESBTN.addEventListener("click", () => {
+            COOKIEBANNER.style.display = "none";
+            ENABLEAUTH();
+        });
+
+        // Rekisteröinti-napin tarkistus ennen lähettämistä
+        SUBMITREGISTER.addEventListener("click", (e) => {
+            if (!COOKIESACCEPTED) {
+                e.preventDefault();
+                REGISTERFEEDBACK.textContent = "Hyväksy evästeet ennen rekisteröitymistä!";
+                REGISTERFEEDBACK.style.color = "red";
+                return false;
+            }
+            // Jos evästeet hyväksytty → login.js hoitaa loput
+        });
+    });
+    </script>
+
+    <!-- Ulkoiset skriptit: kirjautuminen, peli ja palvelinlogiikka -->
+    <script src="login.js"></script>
+    <script src="game.js"></script>
+    <script src="server.js"></script>
+</body>
+</html>
+
+
+
