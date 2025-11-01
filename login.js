@@ -96,11 +96,20 @@ function tarkistaLogin(event) {
 
   // Lähetetään kirjautumispyyntö palvelimelle
   // Lähettää tiedot palvelimelle JSON-muodossa ja odottaa vastausta.
-  fetch("http://localhost:3001/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password })
-  })
+ /*fetch("https://judovisa-backend.onrender.com/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include", // 🔑 Tämä tarvitaan, koska backend sallii evästeet
+  body: JSON.stringify({ username, password })
+})*/
+
+/*Paikallinen backend -yhteys XAMPPille*/
+fetch("http://localhost:3001/login", {  // ← paikallinen backend
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ username, password })
+})
+
     .then(res => res.json()) // Muutetaan palvelimen vastaus JSON-muotoon
     .then(response => {
       if (response.success) {
