@@ -6,16 +6,20 @@
   <link rel="stylesheet" href="style.css">
   <title>Tietosuojaseloste – Judovisa</title>
   <style>
+    /* Listaelementtien fonttikoko */
     section ul li {
-  font-size: 1.5rem;
-}
-main {
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
+      font-size: 1.5rem;
+    }
 
-  </style></head>
+    /* Pääsisällön sisennys sivun reunoista */
+    main {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  </style>
+</head>
 <body>
+  <!-- HEADER: Taustavideo ja logo -->
   <header>
     <video autoplay muted loop class="header-video">
       <source src="video/Header.mp4" type="video/mp4">
@@ -26,8 +30,17 @@ main {
     </div>
   </header>
 
+  <!-- PÄÄSISÄLTÖ -->
   <main>
     <h1>Tietosuojaseloste</h1>
+
+    <!-- Yläpainike: Palaa rekisteröintiin -->
+    <button id="ylapainikkeet" onclick="window.location.href='index.html?rekisterointi=true'">Palaa alkuun</button>
+
+
+
+
+    <!-- Tietosuojaselosteen sisältö -->
     <section>
       <h2>Rekisterinpitäjä</h2>
       <p>JariCode<br>
@@ -73,8 +86,11 @@ main {
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     &copy; <a href="https://jaricode.fi/">JariCode</a>
   </footer>
+
 </body>
 </html>
+

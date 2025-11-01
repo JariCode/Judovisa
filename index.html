@@ -45,6 +45,10 @@
         <div id="rekisterointi">
         <p>Uusi käyttäjä? Rekisteröidy tästä:</p>
         <button id="registerButton">Rekisteröidy</button>
+         <p style="margin-top: 1rem; font-size: 1.4em; font-weight: 400;">
+        Rekisteröitymällä hyväksyt <br>
+        <a href="tietosuojaseloste.html">Judovisan tietosuojaselosteen</a>.
+        </p>
         </div>
 
         <!-- Rekisteröitymislomake (piilotettuna aluksi) -->
@@ -58,10 +62,6 @@
         <input type="password" id="newPassword" placeholder="Salasana" autocomplete="off" required>
 
         <button id="submitRegister">Luo käyttäjä</button>
-        <p style="margin-top: 1rem; font-size: 1.4em;">
-        Rekisteröitymällä hyväksyt <br>
-        <a href="tietosuojaseloste.html" target="_blank">Judovisan tietosuojaselosteen</a>.
-        </p>
 
         <p id="registerFeedback"></p> <!-- Rekisteröinnin palaute -->
         </div>
@@ -154,13 +154,20 @@
     </footer>
 
     <!-- Evästebanneri (näkyy ennen hyväksyntää) -->
-    <div id="cookie-banner" style="background:#eee; padding:0.5em 1em 1em; border:1px solid #ccc; text-align: left;">
-        <p>Käytämme välttämättömiä evästeitä, jotta Judovisa-palvelu toimii oikein, esimerkiksi sisäänkirjautumisen ja palvelun turvallisen käytön mahdollistamiseksi. 
-        <br>Nämä evästeet ovat tarpeellisia palvelun käyttämiseksi, eikä niitä voi poistaa käytöstä.</p>
+  <div id="cookie-banner" style="background:#eee; padding:0.5em 1em 1em; border:1px solid #ccc;">
+    <p>Käytämme välttämättömiä evästeitä, jotta Judovisa-palvelu toimii oikein, esimerkiksi sisäänkirjautumisen ja palvelun turvallisen käytön mahdollistamiseksi. 
+    <br>Nämä evästeet ovat tarpeellisia palvelun käyttämiseksi, eikä niitä voi poistaa käytöstä.</p>
+
+    <!-- Flex container napit + viesti -->
+    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
         <button id="acceptCookiesButton">Hyväksy evästeet</button>
-        <button id="declineCookiesButton" style="margin-left: 1rem;">Älä hyväksy</button>
-        <p id="cookieFeedback" style="color: red; margin-top: 0.5rem;"></p>
+        <button id="declineCookiesButton">Älä hyväksy</button>
+        <span id="cookieFeedback" style="color:red; font-size: 1.5rem;"></span> <!-- Nyt viesti tulee nappien oikealle puolelle -->
     </div>
+</div>
+
+
+    
 
     <!-- JavaScript-osuus evästeiden ja kirjautumisen hallintaan -->
     <script>
